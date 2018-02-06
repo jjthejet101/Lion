@@ -1,21 +1,33 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+
+  onHandleChange = (e) => {
+    let {dispatch} = this.props;
+    dispatch({type: 'UPDATE_USERNAME', username: e.target.value})
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <h1>{this.props.username}</h1>
+        <input type="text"
+                onChange={this.onHandleChange}
+                value={this.props.user} />
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    username: state.username,
+    userprofile: state.userprofile,
+    repos: state.repos
+  }
+}
+
+export default connect(mapStateToProps)(App);
